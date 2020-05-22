@@ -739,6 +739,9 @@ rd_kafka_replyq_enq (rd_kafka_replyq_t *replyq, rd_kafka_op_t *rko,
 	rd_kafka_q_t *rkq = replyq->q;
 	int r;
 
+        if (rko) {
+                return 1;
+        }
 	if (version)
 		rko->rko_version = version;
 	else
