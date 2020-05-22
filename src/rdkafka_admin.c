@@ -1621,8 +1621,10 @@ rd_kafka_NewPartitions_copy (const rd_kafka_NewPartitions_t *src) {
 }
 
 void rd_kafka_NewPartitions_destroy (rd_kafka_NewPartitions_t *newps) {
-        rd_list_destroy(&newps->replicas);
-        rd_free(newps);
+        if (!newps) {
+                rd_list_destroy(&newps->replicas);
+                rd_free(newps);
+        }
 }
 
 static void rd_kafka_NewPartitions_free (void *ptr) {

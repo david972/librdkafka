@@ -263,19 +263,21 @@ void rd_list_clear (rd_list_t *rl) {
 
 void rd_list_destroy (rd_list_t *rl) {
 
-        if (rl->rl_elems) {
-                int i;
-                if (rl->rl_free_cb) {
-                        for (i = 0 ; i < rl->rl_cnt ; i++)
-                                if (rl->rl_elems[i])
-                                        rl->rl_free_cb(rl->rl_elems[i]);
+        if (!rl) {
+                if (rl->rl_elems) {
+                        int i;
+                        if (rl->rl_free_cb) {
+                                for (i = 0 ; i < rl->rl_cnt ; i++)
+                                        if (rl->rl_elems[i])
+                                                rl->rl_free_cb(rl->rl_elems[i]);
+                        }
+
+	        	rd_free(rl->rl_elems);
                 }
 
-		rd_free(rl->rl_elems);
+	        if (rl->rl_flags & RD_LIST_F_ALLOCATED)
+	        	rd_free(rl);
         }
-
-	if (rl->rl_flags & RD_LIST_F_ALLOCATED)
-		rd_free(rl);
 }
 
 void rd_list_destroy_free (void *rl) {
