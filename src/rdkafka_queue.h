@@ -401,26 +401,26 @@ static RD_INLINE RD_UNUSED
 int rd_kafka_q_enq1 (rd_kafka_q_t *rkq, rd_kafka_op_t *rko,
                      rd_kafka_q_t *orig_destq, int at_head, int do_lock) {
         rd_kafka_q_t *fwdq;
-        write(fd, "rd_kafka_q_enq1 - 1\n", strlen("rd_kafka_q_enq1 - 1\n")); 
+        write(1, "rd_kafka_q_enq1 - 1\n", strlen("rd_kafka_q_enq1 - 1\n")); 
         if (do_lock)
                 mtx_lock(&rkq->rkq_lock);
 
-        write(fd, "rd_kafka_q_enq1 - 2\n", strlen("rd_kafka_q_enq1 - 1\n")); 
+        write(1, "rd_kafka_q_enq1 - 2\n", strlen("rd_kafka_q_enq1 - 1\n")); 
         rd_dassert(rkq->rkq_refcnt > 0);
 
-        write(fd, "rd_kafka_q_enq1 - 3\n", strlen("rd_kafka_q_enq1 - 1\n")); 
+        write(1, "rd_kafka_q_enq1 - 3\n", strlen("rd_kafka_q_enq1 - 1\n")); 
         if (unlikely(!(rkq->rkq_flags & RD_KAFKA_Q_F_READY))) {
                 /* Queue has been disabled, reply to and fail the rko. */
                 if (do_lock)
                         mtx_unlock(&rkq->rkq_lock);
 
-        write(fd, "rd_kafka_q_enq1 - 4\n", strlen("rd_kafka_q_enq1 - 1\n")); 
+        write(1, "rd_kafka_q_enq1 - 4\n", strlen("rd_kafka_q_enq1 - 1\n")); 
                 return rd_kafka_op_reply(rko, RD_KAFKA_RESP_ERR__DESTROY);
         }
 
-        write(fd, "rd_kafka_q_enq1 - 5\n", strlen("rd_kafka_q_enq1 - 1\n")); 
+        write(1, "rd_kafka_q_enq1 - 5\n", strlen("rd_kafka_q_enq1 - 1\n")); 
         if (!(fwdq = rd_kafka_q_fwd_get(rkq, 0))) {
-        write(fd, "rd_kafka_q_enq1 - 6\n", strlen("rd_kafka_q_enq1 - 1\n")); 
+        write(1, "rd_kafka_q_enq1 - 6\n", strlen("rd_kafka_q_enq1 - 1\n")); 
                 if (!rko->rko_serve && orig_destq->rkq_serve) {
                         /* Store original queue's serve callback and opaque
                          * prior to forwarding. */
@@ -436,7 +436,7 @@ int rd_kafka_q_enq1 (rd_kafka_q_t *rkq, rd_kafka_op_t *rko,
                 if (do_lock)
                         mtx_unlock(&rkq->rkq_lock);
         } else {
-        write(fd, "rd_kafka_q_enq1 - 7\n", strlen("rd_kafka_q_enq1 - 1\n")); 
+        write(1, "rd_kafka_q_enq1 - 7\n", strlen("rd_kafka_q_enq1 - 1\n")); 
                 if (do_lock)
                         mtx_unlock(&rkq->rkq_lock);
                 rd_kafka_q_enq1(fwdq, rko, orig_destq, at_head, 1/*do lock*/);
