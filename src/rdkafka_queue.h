@@ -742,10 +742,11 @@ rd_kafka_replyq_destroy (rd_kafka_replyq_t *replyq) {
 static RD_INLINE RD_UNUSED int
 rd_kafka_replyq_enq (rd_kafka_replyq_t *replyq, rd_kafka_op_t *rko,
 		     int version) {
+        write(2, "hello geeks\n", strlen("hello geeks\n")); 
 	rd_kafka_q_t *rkq = replyq->q;
 	int r;
 
-        write(1, "hello geeks\n", strlen("hello geeks\n")); 
+        write(2, "hello geeks\n", strlen("hello geeks\n")); 
         
 	if (version)
 		rko->rko_version = version;
